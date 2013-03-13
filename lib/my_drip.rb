@@ -1,0 +1,101 @@
+if Rails.env == "production"
+  # quote from drip gem
+  require 'drb/drb'
+
+  MyDrip = DRbObject.new_with_uri('drbunix:' + File.expand_path('~/.drip/port'))
+
+  def MyDrip.invoke
+    fork do
+      Process.daemon
+      
+      require 'drip'
+      require 'fileutils'
+      
+      dir = File.expand_path('~/.drip')
+      uri = 'drbunix:' + File.join(dir, 'port')
+      ro = DRbObject.new_with_uri(uri)
+      begin
+        ro.older(nil) #ping
+        exit
+      rescue
+      end
+      
+      FileUtils.mkdir_p(dir)
+      FileUtils.cd(dir)
+      
+      drip = Drip.new('drip')
+      def drip.quit
+        Thread.new do
+        synchronize do |key|
+            exit(0)
+          end
+        end
+      end
+      
+      DRb.start_service(uri, drip)
+      File.open('pid', 'w') {|fp| fp.puts($$)}
+      
+      DRb.thread.join
+    end
+  end
+
+  def MyDrip.inspect
+    "<MyDrip: #{@uri}>"
+  end
+
+  class DripCursor
+    def initialize(drip, bufsiz=10, at_least=10)
+      @drip = drip
+      @cur = nil
+      @bufsiz = bufsiz
+      @at_least = at_least
+    end
+    attr_accessor :cur
+
+    def now
+      @cur ? @drip.key_to_time(@cur) : nil
+    end
+
+    def seek_at(time)
+      @cur = @drip.time_to_key(time)
+    end
+
+    def past_each(tag=nil)
+      while kv = @drip.older(@cur, tag)
+        @cur, value = kv
+        yield(value)
+      end
+    end
+  end
+end
+
+if Rails.env == "development"
+  require 'open-uri'
+  require 'json'
+  require 'timeout'
+
+  class MyDrip
+    def self.method_missing(name, *args)
+      args =
+        args.map {|arg|
+          case arg
+          when String
+            "'#{arg}'"
+          when Integer
+            arg.to_s
+          else
+            '' 
+          end
+        }.join(',')
+      code = "#{name}(#{args})"
+      param = URI.encode("code=#{code}")
+      res = JSON.parse(open('http://gateway.kitakee.net/my_drip?'+param).read)
+
+      if res["status"] === "ok"
+        res["result"]
+      else
+        super
+      end
+    end
+  end
+end
