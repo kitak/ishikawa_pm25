@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= content_for?(:title) ? yield(:title) : "IshikawaPm25" %></title>
+    <title><%= content_for?(:title) ? yield(:title) : "石川県のPM2.5の測定値" %></title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag "application", :media => "all" %>
@@ -14,33 +14,31 @@
     <div class="navbar navbar-fluid-top">
       <div class="navbar-inner">
         <div class="container-fluid">
-          <a class="brand" href="#">Ishikawa PM2.5</a>
+          <a class="brand" href="#">石川県のPM2.5の測定値</a>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
 
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span3">
+    <div class="container">
+      <div class="row">
+        <div class="span3" style="margin-top: 50px;">
           <div class="well sidebar-nav">
-            <form class="form-inline" style="margin-bottom: 0px;">
+            <form class="form-horizontal" style="margin-bottom: 0px;">
                <p>日付を選ぶ</p>
-               <div>
-                 <select id="month" class="span4">
-                   <option value="9">9</option> 
-                   <option value="10">10</option> 
-                 </select>
-                 <span>月</span>
-                 <select id="month" class="span4">
-                   <option value="9">9</option> 
-                   <option value="10">10</option> 
-                 </select>
-                 <span>日</span>
-               </div>
-               <p class="clearfix" style="margin-top: 20px;">
-               <button class="btn span10 btn-primary" type="button">グラフを表示</button>
-               </p>
+               <select id="month" class="span1">
+                 <% @months.each do |m| %>
+                   <option value="<%= m %>"><%= m %></option> 
+                 <% end %>
+               </select>
+               <span>月</span>
+               <select id="day" class="span1">
+                 <% @days.each do |d| %>
+                   <option value="<%= d %>"><%= d %></option> 
+                 <% end %>
+               </select>
+               <span>日</span>
+               <p style="margin-top: 20px;"><button id="show_graph" class="btn btn-primary" type="button">グラフを表示</button></p>
             </form>
           </div><!--/.well -->
         </div><!--/span-->

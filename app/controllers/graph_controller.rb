@@ -2,7 +2,8 @@
 
 class GraphController < ApplicationController
   def index
-    
+    @months = [3]
+    @days = (8..Time.now.day).to_a
   end
 
   def show
@@ -10,17 +11,23 @@ class GraphController < ApplicationController
     day = params[:day]
     data = PM25.find(month: month, day: day)
 
+    if data.empty?
+      render :status => 404, :nothing => true
+      return 
+    end
+
     # TODO: モデルの仕事では？
     dates = 
       data.each_with_index.inject({}) do |buf, ((record), i)|
-        buf[i] = record.fetch_time.strftime("%H").gsub(/\A0/, "")
+        buf[i] = record.fetch_time.strftime("%H").gsub(/\A0/, "") if i % 2 == 1 
         buf
       end
     location_to_values =
       data.inject({}) do |buf, (record)|
         record.locations.each do |loc|
           buf[loc.name] ||= []
-          buf[loc.name] << loc.value
+          val = loc.value < 0 ? 0 : loc.value
+          buf[loc.name] << val
         end
         buf
       end
