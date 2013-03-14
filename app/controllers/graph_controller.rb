@@ -28,6 +28,8 @@ class GraphController < ApplicationController
       g.font = "/Library/Fonts/ヒラギノ角ゴ Pro W3.otf"
       g.x_axis_label = 'hour'
       g.y_axis_label = 'μg/m^3'
+      g.maximum_value = 100
+      g.minimum_value = 0
       location_to_values.each do |k, v|
         g.data(k, v)
       end
