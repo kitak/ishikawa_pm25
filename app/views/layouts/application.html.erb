@@ -24,16 +24,33 @@
       <div class="row-fluid">
         <div class="span3">
           <div class="well sidebar-nav">
+            <form class="form-inline" style="margin-bottom: 0px;">
+               <p>日付を選ぶ</p>
+               <div>
+                 <select id="month" class="span4">
+                   <option value="9">9</option> 
+                   <option value="10">10</option> 
+                 </select>
+                 <span>月</span>
+                 <select id="month" class="span4">
+                   <option value="9">9</option> 
+                   <option value="10">10</option> 
+                 </select>
+                 <span>日</span>
+               </div>
+               <p class="clearfix" style="margin-top: 20px;">
+               <button class="btn span10 btn-primary" type="button">グラフを表示</button>
+               </p>
+            </form>
           </div><!--/.well -->
         </div><!--/span-->
-        <div class="span9">
+        <div class="span8">
           <%= bootstrap_flash %>
           <%= yield %>
         </div>
       </div><!--/row-->
 
       <footer>
-        <p>&copy; Company 2013</p>
       </footer>
 
     </div> <!-- /container -->
