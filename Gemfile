@@ -25,6 +25,7 @@ gem 'jquery-rails'
 group :production do
   gem 'drip'
 end
+gem 'hashie'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

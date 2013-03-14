@@ -5,7 +5,10 @@ class PM25
       year = option[:year] || "2013"
       month = option[:month].to_s.rjust(2, "0")
       day = option[:day].to_s.rjust(2, "0")
-      MyDrip.read_tag(start_key, "collect_pm25_date=#{year}-#{month}-#{day}", 24)
+      day_data = MyDrip.read_tag(start_key, "collect_pm25_date=#{year}-#{month}-#{day}", 24)
+      day_data.map { |record|
+        Hashie::Mash.new(record[1])
+      }
     end
 
     private
