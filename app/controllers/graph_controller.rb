@@ -1,6 +1,10 @@
 # coding: utf-8
 
 class GraphController < ApplicationController
+  def index
+    
+  end
+
   def show
     month = params[:month]
     day = params[:day]
