@@ -7,6 +7,9 @@ class PM25
       day = option[:day].to_s.rjust(2, "0")
       day_data = MyDrip.read_tag(start_key, "collect_pm25_date=#{year}-#{month}-#{day}", 24)
       day_data.map { |record|
+        if record[1]["fetch_time"].kind_of? String
+          record[1]["fetch_time"] = DateTime.parse(record[1]["fetch_time"]) 
+        end
         Hashie::Mash.new(record[1])
       }
     end
