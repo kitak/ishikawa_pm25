@@ -29,6 +29,7 @@ end
 gem 'hashie'
 gem 'rmagick'
 gem 'gruff'
+gem 'less-rails'
 gem 'twitter-bootstrap-rails'
 
 # To use ActiveModel has_secure_password
