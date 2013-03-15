@@ -35,8 +35,7 @@ class GraphController < ApplicationController
     if params[:format] == "png"
       # TODO: グラフの生成をメソッドに分割する
       g = ::Gruff::Line.new
-      # TODO: 環境でパスが違う
-      g.font = "/Library/Fonts/ヒラギノ角ゴ Pro W3.otf"
+      g.font = app[:font_path]
       g.x_axis_label = 'hour'
       g.y_axis_label = 'μg/m^3'
       g.maximum_value = 100

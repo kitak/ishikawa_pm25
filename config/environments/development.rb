@@ -1,3 +1,5 @@
+# coding: utf-8
+
 IshikawaPm25::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
@@ -34,4 +36,9 @@ IshikawaPm25::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  
+  config.appvar = {
+    font_path: "/Library/Fonts/ヒラギノ角ゴ Pro W3.otf"
+  }
 end
