@@ -1,15 +1,15 @@
 worker_processes 2
-working_directory /var/www/ishikawa_pm25
+working_directory "/var/www/ishikawa_pm25"
  
-listen /var/www/ishikawa_pm25/tmp/unicorn.sock
-pid /var/www/ishikawa_pm25/tmp/unicorn.pid
+listen "/var/www/ishikawa_pm25/tmp/unicorn.sock"
+pid "/var/www/ishikawa_pm25/tmp/unicorn.pid"
  
 timeout 60
  
 preload_app true # ダウンタイムをなくす
  
-stdout_path /var/www/ishikawa_pm25/log/unicorn.stdout.log
-stderr_path /var/www/ishikawa_pm25/log/unicorn.stderr.log
+stdout_path "/var/www/ishikawa_pm25/log/unicorn.stdout.log"
+stderr_path "/var/www/ishikawa_pm25/log/unicorn.stderr.log"
  
 GC.respond_to?(:copy_on_write_friendly=) and GC.copy_on_write_friendly = true
  
