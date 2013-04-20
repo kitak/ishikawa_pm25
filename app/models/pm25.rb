@@ -6,6 +6,8 @@ class PM25
       month = option[:month].to_s.rjust(2, "0")
       day = option[:day].to_s.rjust(2, "0")
       day_data = MyDrip.read_tag(start_key, "collect_pm25_date=#{year}-#{month}-#{day}", 24)
+      
+      Rails.logger.info day_data
       day_data.map { |record|
         if record[1]["fetch_time"].kind_of? String
           record[1]["fetch_time"] = DateTime.parse(record[1]["fetch_time"]) 
