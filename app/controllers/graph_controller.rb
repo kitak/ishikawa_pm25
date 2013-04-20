@@ -2,8 +2,6 @@
 
 class GraphController < ApplicationController
   def index
-    @months = (3..Time.now.month).to_a
-    @days = (8..Time.now.day).to_a
   end
 
   def show

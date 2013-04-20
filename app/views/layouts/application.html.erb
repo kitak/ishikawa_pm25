@@ -33,17 +33,11 @@
           <div class="well sidebar-nav">
             <form class="form-horizontal" style="margin-bottom: 0px;">
                <p>日付を選ぶ</p>
-               <select id="month" class="span1">
-                 <% @months.each do |m| %>
-                   <option value="<%= m %>"><%= m %></option> 
-                 <% end %>
-               </select>
+               <%= select_month Time.now, {:use_month_numbers => true},
+                                          {:id => 'month', :class => 'span1'} %>
                <span>月</span>
-               <select id="day" class="span1">
-                 <% @days.each do |d| %>
-                   <option value="<%= d %>"><%= d %></option> 
-                 <% end %>
-               </select>
+               <%= select_day Time.now, {:use_month_numbers => true},
+                                        {:id => 'day', :class => 'span1'} %>
                <span>日</span>
                <p style="margin-top: 20px;"><button id="show_graph" class="btn btn-primary" type="button">グラフを表示</button></p>
             </form>
