@@ -8,8 +8,8 @@ class GraphController < ApplicationController
     year = "2013"
     month = params[:month]
     day = params[:day]
-    data = PM25.find(month: month, day: day)
 
+    data = PM25.find(month: month, day: day)
     if data.empty?
       render :status => 404, :nothing => true
       return 
@@ -21,7 +21,7 @@ class GraphController < ApplicationController
         buf[i] = record.fetch_time.strftime("%H").gsub(/\A0/, "") if i % 2 == 1 
         buf
       end
-    @location_to_value = PM25.location_to_value(month: month, day: day)
+    @location_to_value = data.location_to_value(month: month, day: day)
 
     if params[:format] == "png"
       redis = Redis.new
@@ -32,7 +32,7 @@ class GraphController < ApplicationController
       end
       send_data image, type: 'png', disposition: "inline"
     else
-      render :json => location_to_values
+      render :json => @location_to_values
     end
   end
 
