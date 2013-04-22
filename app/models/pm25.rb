@@ -16,6 +16,19 @@ class PM25
       }
     end
 
+    def location_to_value(option={})
+      data = find(option)
+
+      data.inject({}) do |buf, (record)|
+        record.locations.each do |loc|
+          buf[loc.name] ||= []
+          val = loc.value < 0 ? 0 : loc.value
+          buf[loc.name] << val
+        end
+        buf
+      end
+    end
+
     private
     def start_key
       k, = MyDrip.head(1, 'collect_pm25_start')[0]
