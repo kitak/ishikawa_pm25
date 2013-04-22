@@ -15,16 +15,13 @@ class GraphController < ApplicationController
       return 
     end
 
-    # TODO: 横軸用のデータ．グラフの生成に利用している．ビューヘルパーに移す？
-    @dates = 
-      data.each_with_index.inject({}) do |buf, ((record), i)|
-        buf[i] = record.fetch_time.strftime("%H").gsub(/\A0/, "") if i % 2 == 1 
-        buf
-      end
     @location_to_values = data.location_to_values
+    # TODO: デコレータを使うべき？
+    @dates = GraphController.helpers.x_axis(data)
 
     if params[:format] == "png"
       redis = Redis.new
+      #TODO: グラフの生成タスクを作成してcronで動かす
       key = "ishikawa-pm25#{year}-#{month}-#{day}"
       unless (image = redis.get(key))
         image = generate_graph
