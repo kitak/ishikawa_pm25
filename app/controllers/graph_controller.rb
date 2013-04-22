@@ -21,7 +21,7 @@ class GraphController < ApplicationController
         buf[i] = record.fetch_time.strftime("%H").gsub(/\A0/, "") if i % 2 == 1 
         buf
       end
-    @location_to_value = data.location_to_value
+    @location_to_values = data.location_to_values
 
     if params[:format] == "png"
       redis = Redis.new

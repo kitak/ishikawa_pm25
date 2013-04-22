@@ -13,7 +13,7 @@ class PM25
         end
         Hashie::Mash.new(record[1])
       }
-      def adjusted_data.location_to_value
+      def adjusted_data.location_to_values
         Rails.logger.info self
         self.inject({}) do |buf, (record)|
           record.locations.each do |loc|
